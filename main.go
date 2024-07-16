@@ -1,14 +1,14 @@
 package main
 
 import (
-	"fmt"
-	"grpc-user-service/grpc-user-service/proto"
-	"grpc-user-service/repository"
-	"grpc-user-service/service"
-	"log"
-	"net"
+    "log"
+    "net"
 
-	"google.golang.org/grpc"
+    "google.golang.org/grpc"
+    "google.golang.org/grpc/reflection"
+    "grpc-user-service/grpc-user-service/proto"
+    "grpc-user-service/repository"
+    "grpc-user-service/service"
 )
 
 func main() {
@@ -18,12 +18,13 @@ func main() {
     }
 
     grpcServer := grpc.NewServer()
-    userRepository := repository.NewInMemoryUserRepository()
-    userService := service.NewUserService(userRepository)
-
+    userService := service.NewUserService(repository.NewInMemoryUserRepository())
     proto.RegisterUserServiceServer(grpcServer, userService)
 
-    fmt.Println("Server is running on port :50051")
+    // Register reflection service on gRPC server
+    reflection.Register(grpcServer)
+
+    log.Println("Server is running on port 50051")
     if err := grpcServer.Serve(lis); err != nil {
         log.Fatalf("failed to serve: %v", err)
     }
