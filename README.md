@@ -28,7 +28,7 @@ This is a gRPC service for managing user details, including a search capability 
 
 1. Clone the repository:
     ```bash
-    git clone <your-repository-url>
+    git clone https://github.com/EraKin575/grpc-user-service.git
     cd grpc-user-service
     ```
 
@@ -52,7 +52,7 @@ You can test the gRPC service using `grpcurl`:
 
     - For Linux:
       ```bash
-      sudo apt install grpcurl
+      go install github.com/fullstorydev/grpcurl/cmd/grpcurl@latest
       ```
 
     - For macOS (using Homebrew):
