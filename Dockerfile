@@ -1,23 +1,15 @@
 FROM golang:1.22-alpine AS builder
-
 RUN apk update && apk add --no-cache git
-
 WORKDIR /app
-
 COPY go.mod go.sum ./
-
-RUN go mod tidy
-
+RUN go mod download
 COPY . .
-
-RUN go build -o grpc-user-service ./main.go
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o grpc-user-service .
 
 FROM alpine:latest
-
+RUN apk --no-cache add ca-certificates
 WORKDIR /root/
-
 COPY --from=builder /app/grpc-user-service .
-
+RUN chmod +x /root/grpc-user-service
 EXPOSE 50051
-
-CMD ["./grpc-user-service"]
+CMD ["/root/grpc-user-service"]
