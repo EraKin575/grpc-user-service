@@ -10,7 +10,6 @@ This is a gRPC service for managing user details, including a search capability 
 - [Testing the Service](#testing-the-service)
 - [Using Docker Compose](#using-docker-compose)
 - [API Endpoints](#api-endpoints)
-- [License](#license)
 
 ## Features
 
